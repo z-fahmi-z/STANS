@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Hero from "@/components/Hero";
 import GraphVisualization from "@/components/GraphVisualization";
 import ProjectInfo from "@/components/ProjectInfo";
 import RouteCalculator from "@/components/RouteCalculator";
-import { MapPin, Route, AlertTriangle } from "lucide-react";
+import GraphBuilder from "@/components/GraphBuilder";
+import AlgorithmComparison from "@/components/AlgorithmComparison";
+import ComplexityAnalysis from "@/components/ComplexityAnalysis";
+import { MapPin, Route, AlertTriangle, Hammer, BarChart3, Cpu } from "lucide-react";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -22,20 +23,34 @@ const Index = () => {
         
         <div className="container mx-auto px-4 py-12">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3 mb-8">
-              <TabsTrigger value="overview" className="flex items-center gap-2">
-                <MapPin className="w-4 h-4" />
-                Overview
-              </TabsTrigger>
-              <TabsTrigger value="visualization" className="flex items-center gap-2">
-                <Route className="w-4 h-4" />
-                Visualization
-              </TabsTrigger>
-              <TabsTrigger value="calculator" className="flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4" />
-                Route Calculator
-              </TabsTrigger>
-            </TabsList>
+            <div className="overflow-x-auto mb-8">
+              <TabsList className="inline-flex w-full min-w-max justify-start lg:justify-center">
+                <TabsTrigger value="overview" className="flex items-center gap-2 whitespace-nowrap">
+                  <MapPin className="w-4 h-4" />
+                  Overview
+                </TabsTrigger>
+                <TabsTrigger value="visualization" className="flex items-center gap-2 whitespace-nowrap">
+                  <Route className="w-4 h-4" />
+                  Kruskal's
+                </TabsTrigger>
+                <TabsTrigger value="calculator" className="flex items-center gap-2 whitespace-nowrap">
+                  <AlertTriangle className="w-4 h-4" />
+                  Route Calc
+                </TabsTrigger>
+                <TabsTrigger value="builder" className="flex items-center gap-2 whitespace-nowrap">
+                  <Hammer className="w-4 h-4" />
+                  Builder
+                </TabsTrigger>
+                <TabsTrigger value="comparison" className="flex items-center gap-2 whitespace-nowrap">
+                  <BarChart3 className="w-4 h-4" />
+                  Compare
+                </TabsTrigger>
+                <TabsTrigger value="complexity" className="flex items-center gap-2 whitespace-nowrap">
+                  <Cpu className="w-4 h-4" />
+                  Complexity
+                </TabsTrigger>
+              </TabsList>
+            </div>
 
             <TabsContent value="overview" className="space-y-8">
               <ProjectInfo />
@@ -47,6 +62,18 @@ const Index = () => {
 
             <TabsContent value="calculator">
               <RouteCalculator />
+            </TabsContent>
+
+            <TabsContent value="builder">
+              <GraphBuilder />
+            </TabsContent>
+
+            <TabsContent value="comparison">
+              <AlgorithmComparison />
+            </TabsContent>
+
+            <TabsContent value="complexity">
+              <ComplexityAnalysis />
             </TabsContent>
           </Tabs>
         </div>

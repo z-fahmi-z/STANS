@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Play, RefreshCw, SkipForward, SkipBack, ChevronRight, ChevronLeft } from "lucide-react";
+import { Play, RefreshCw, SkipForward, SkipBack, ChevronRight, ChevronLeft, Pause } from "lucide-react";
 import { toast } from "sonner";
 import { kruskalAlgorithm, getEdgeColor, type Edge, type KruskalStep } from "@/utils/kruskal";
 import { Progress } from "@/components/ui/progress";
+import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
 
 interface Node {
   id: string;
@@ -18,6 +20,9 @@ const GraphVisualization = () => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [steps, setSteps] = useState<KruskalStep[]>([]);
   const [isRunning, setIsRunning] = useState(false);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+  const [playbackSpeed, setPlaybackSpeed] = useState(1000); // milliseconds per step
+  const autoPlayIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Sample graph data
   const nodes: Node[] = [
@@ -54,11 +59,61 @@ const GraphVisualization = () => {
   };
 
   const resetGraph = () => {
+    stopAutoPlay();
     setSteps([]);
     setCurrentStepIndex(0);
     setIsRunning(false);
     toast.info("Algorithm reset");
   };
+
+  const startAutoPlay = () => {
+    if (!isRunning || currentStepIndex >= steps.length - 1) {
+      return;
+    }
+    setIsAutoPlaying(true);
+    toast.success("Auto-play started");
+  };
+
+  const stopAutoPlay = () => {
+    setIsAutoPlaying(false);
+    if (autoPlayIntervalRef.current) {
+      clearInterval(autoPlayIntervalRef.current);
+      autoPlayIntervalRef.current = null;
+    }
+  };
+
+  const toggleAutoPlay = () => {
+    if (isAutoPlaying) {
+      stopAutoPlay();
+      toast.info("Auto-play paused");
+    } else {
+      startAutoPlay();
+    }
+  };
+
+  // Auto-play effect
+  useEffect(() => {
+    if (isAutoPlaying && currentStepIndex < steps.length - 1) {
+      autoPlayIntervalRef.current = setInterval(() => {
+        setCurrentStepIndex(prev => {
+          if (prev >= steps.length - 1) {
+            stopAutoPlay();
+            toast.success("Auto-play complete!");
+            return prev;
+          }
+          return prev + 1;
+        });
+      }, playbackSpeed);
+    } else if (currentStepIndex >= steps.length - 1) {
+      stopAutoPlay();
+    }
+
+    return () => {
+      if (autoPlayIntervalRef.current) {
+        clearInterval(autoPlayIntervalRef.current);
+      }
+    };
+  }, [isAutoPlaying, currentStepIndex, steps.length, playbackSpeed]);
 
   const nextStep = () => {
     if (currentStepIndex < steps.length - 1) {
@@ -103,11 +158,53 @@ const GraphVisualization = () => {
               <Play className="w-4 h-4 mr-2" />
               Start Algorithm
             </Button>
+            {isRunning && (
+              <Button
+                onClick={toggleAutoPlay}
+                variant={isAutoPlaying ? "destructive" : "secondary"}
+                className={isAutoPlaying ? "" : "bg-secondary hover:bg-secondary/90"}
+              >
+                {isAutoPlaying ? (
+                  <>
+                    <Pause className="w-4 h-4 mr-2" />
+                    Pause Auto-Play
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-4 h-4 mr-2" />
+                    Auto-Play
+                  </>
+                )}
+              </Button>
+            )}
             <Button onClick={resetGraph} variant="outline">
               <RefreshCw className="w-4 h-4 mr-2" />
               Reset
             </Button>
           </div>
+
+          {/* Speed Control */}
+          {isRunning && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="speed-slider" className="text-sm font-medium">
+                  Playback Speed
+                </Label>
+                <span className="text-sm text-muted-foreground">
+                  {playbackSpeed === 2000 ? "Slow" : playbackSpeed === 1000 ? "Normal" : playbackSpeed === 500 ? "Fast" : "Very Fast"}
+                </span>
+              </div>
+              <Slider
+                id="speed-slider"
+                min={250}
+                max={2000}
+                step={250}
+                value={[playbackSpeed]}
+                onValueChange={(value) => setPlaybackSpeed(value[0])}
+                className="w-full"
+              />
+            </div>
+          )}
 
           {isRunning && (
             <>
@@ -124,7 +221,7 @@ const GraphVisualization = () => {
               <div className="flex items-center justify-center gap-2">
                 <Button
                   onClick={jumpToStart}
-                  disabled={currentStepIndex === 0}
+                  disabled={currentStepIndex === 0 || isAutoPlaying}
                   variant="outline"
                   size="sm"
                 >
@@ -132,7 +229,7 @@ const GraphVisualization = () => {
                 </Button>
                 <Button
                   onClick={prevStep}
-                  disabled={currentStepIndex === 0}
+                  disabled={currentStepIndex === 0 || isAutoPlaying}
                   variant="outline"
                   size="sm"
                 >
@@ -140,7 +237,7 @@ const GraphVisualization = () => {
                 </Button>
                 <Button
                   onClick={nextStep}
-                  disabled={currentStepIndex === steps.length - 1}
+                  disabled={currentStepIndex === steps.length - 1 || isAutoPlaying}
                   variant="default"
                   size="sm"
                   className="bg-secondary hover:bg-secondary/90"
@@ -149,7 +246,7 @@ const GraphVisualization = () => {
                 </Button>
                 <Button
                   onClick={jumpToEnd}
-                  disabled={currentStepIndex === steps.length - 1}
+                  disabled={currentStepIndex === steps.length - 1 || isAutoPlaying}
                   variant="outline"
                   size="sm"
                 >
