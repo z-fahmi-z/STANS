@@ -11,7 +11,11 @@ import Graph3D from "@/components/Graph3D";
 import VisualizationHistory from "@/components/VisualizationHistory";
 import GraphImport from "@/components/GraphImport";
 import EducationalMode from "@/components/EducationalMode";
-import { MapPin, Route, AlertTriangle, Hammer, BarChart3, Cpu, Box, Clock, Upload, GraduationCap } from "lucide-react";
+import PerformanceBenchmark from "@/components/PerformanceBenchmark";
+import AnimationRecorder from "@/components/AnimationRecorder";
+import CollaborativeGraph from "@/components/CollaborativeGraph";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { MapPin, Route, AlertTriangle, Hammer, BarChart3, Cpu, Box, Clock, Upload, GraduationCap, Zap, Video, Users } from "lucide-react";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -21,6 +25,11 @@ const Index = () => {
       {/* Background mesh gradient */}
       <div className="fixed inset-0 pointer-events-none opacity-40" 
            style={{ background: 'var(--gradient-mesh)' }} />
+      
+      {/* Theme toggle */}
+      <div className="fixed top-4 right-4 z-50">
+        <ThemeToggle />
+      </div>
       
       <div className="relative">
         <Hero />
@@ -69,6 +78,18 @@ const Index = () => {
                   <GraduationCap className="w-4 h-4" />
                   Learn
                 </TabsTrigger>
+                <TabsTrigger value="benchmark" className="flex items-center gap-2 whitespace-nowrap">
+                  <Zap className="w-4 h-4" />
+                  Benchmark
+                </TabsTrigger>
+                <TabsTrigger value="recorder" className="flex items-center gap-2 whitespace-nowrap">
+                  <Video className="w-4 h-4" />
+                  Record
+                </TabsTrigger>
+                <TabsTrigger value="collaborative" className="flex items-center gap-2 whitespace-nowrap">
+                  <Users className="w-4 h-4" />
+                  Collaborate
+                </TabsTrigger>
               </TabsList>
             </div>
 
@@ -110,6 +131,18 @@ const Index = () => {
 
             <TabsContent value="educational">
               <EducationalMode />
+            </TabsContent>
+
+            <TabsContent value="benchmark">
+              <PerformanceBenchmark />
+            </TabsContent>
+
+            <TabsContent value="recorder">
+              <AnimationRecorder />
+            </TabsContent>
+
+            <TabsContent value="collaborative">
+              <CollaborativeGraph />
             </TabsContent>
           </Tabs>
         </div>
