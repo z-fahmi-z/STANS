@@ -7,7 +7,11 @@ import RouteCalculator from "@/components/RouteCalculator";
 import GraphBuilder from "@/components/GraphBuilder";
 import AlgorithmComparison from "@/components/AlgorithmComparison";
 import ComplexityAnalysis from "@/components/ComplexityAnalysis";
-import { MapPin, Route, AlertTriangle, Hammer, BarChart3, Cpu } from "lucide-react";
+import Graph3D from "@/components/Graph3D";
+import VisualizationHistory from "@/components/VisualizationHistory";
+import GraphImport from "@/components/GraphImport";
+import EducationalMode from "@/components/EducationalMode";
+import { MapPin, Route, AlertTriangle, Hammer, BarChart3, Cpu, Box, Clock, Upload, GraduationCap } from "lucide-react";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -49,6 +53,22 @@ const Index = () => {
                   <Cpu className="w-4 h-4" />
                   Complexity
                 </TabsTrigger>
+                <TabsTrigger value="3d" className="flex items-center gap-2 whitespace-nowrap">
+                  <Box className="w-4 h-4" />
+                  3D View
+                </TabsTrigger>
+                <TabsTrigger value="history" className="flex items-center gap-2 whitespace-nowrap">
+                  <Clock className="w-4 h-4" />
+                  History
+                </TabsTrigger>
+                <TabsTrigger value="import" className="flex items-center gap-2 whitespace-nowrap">
+                  <Upload className="w-4 h-4" />
+                  Import
+                </TabsTrigger>
+                <TabsTrigger value="educational" className="flex items-center gap-2 whitespace-nowrap">
+                  <GraduationCap className="w-4 h-4" />
+                  Learn
+                </TabsTrigger>
               </TabsList>
             </div>
 
@@ -74,6 +94,22 @@ const Index = () => {
 
             <TabsContent value="complexity">
               <ComplexityAnalysis />
+            </TabsContent>
+
+            <TabsContent value="3d">
+              <Graph3D />
+            </TabsContent>
+
+            <TabsContent value="history">
+              <VisualizationHistory />
+            </TabsContent>
+
+            <TabsContent value="import">
+              <GraphImport />
+            </TabsContent>
+
+            <TabsContent value="educational">
+              <EducationalMode />
             </TabsContent>
           </Tabs>
         </div>
