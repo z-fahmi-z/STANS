@@ -172,133 +172,124 @@ export const InteractiveTutorial = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 pointer-events-none">
-        {/* Overlay with spotlight effect */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto"
-          onClick={handleSkip}
-        />
-
-        {/* Tutorial Card */}
-        <motion.div
-          initial={{ opacity: 0, y: -20, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -20, scale: 0.95 }}
-          className="relative z-10 pointer-events-auto"
-        >
-          <Card className="w-[500px] max-w-[90vw] shadow-2xl border-2 border-primary/20 bg-background/95 backdrop-blur">
-            {/* Header */}
-            <div className="p-6 pb-4 space-y-4">
-              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <Sparkles className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <Badge variant="outline" className="mb-2">
-                      Step {currentStep + 1} of {tutorialSteps.length}
-                    </Badge>
-                    <h3 className="text-xl font-bold text-foreground">{step.title}</h3>
-                  </div>
+      {/* Corner Tutorial Popup - Bottom Right */}
+      <motion.div
+        initial={{ opacity: 0, x: 400, y: 100 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        exit={{ opacity: 0, x: 400, y: 100 }}
+        className="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-3rem)]"
+      >
+        <Card className="shadow-2xl border-2 border-primary bg-background backdrop-blur-md">
+          {/* Header */}
+          <div className="p-4 pb-3 space-y-3">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                <div className="p-1.5 rounded-lg bg-primary/10 flex-shrink-0">
+                  <Sparkles className="w-4 h-4 text-primary" />
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={handleSkip}
-                  className="rounded-full hover:bg-destructive/10"
-                >
-                  <X className="w-4 h-4" />
-                </Button>
-              </div>
-
-              <Progress value={progress} className="h-2" />
-            </div>
-
-            {/* Content */}
-            <div className="px-6 pb-6 space-y-6">
-              <p className="text-base text-muted-foreground leading-relaxed">
-                {step.description}
-              </p>
-
-              {/* Validation Status */}
-              {step.validation && (
-                <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
-                  {canProceed() ? (
-                    <>
-                      <CheckCircle2 className="w-5 h-5 text-green-500" />
-                      <span className="text-sm font-medium text-green-600 dark:text-green-400">
-                        Step completed! Click Next to continue.
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <div className="w-5 h-5 rounded-full border-2 border-muted-foreground/30 animate-pulse" />
-                      <span className="text-sm text-muted-foreground">
-                        Complete the action above to proceed
-                      </span>
-                    </>
-                  )}
+                <div className="min-w-0 flex-1">
+                  <Badge variant="outline" className="mb-1 text-xs">
+                    Step {currentStep + 1} of {tutorialSteps.length}
+                  </Badge>
+                  <h3 className="text-base font-bold text-foreground truncate">{step.title}</h3>
                 </div>
-              )}
-
-              {/* Controls */}
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  onClick={handlePrevious}
-                  disabled={currentStep === 0}
-                  className="flex-1"
-                >
-                  <ChevronLeft className="w-4 h-4 mr-1" />
-                  Previous
-                </Button>
-                <Button
-                  onClick={handleNext}
-                  disabled={step.validation && !canProceed()}
-                  className="flex-1"
-                >
-                  {currentStep === tutorialSteps.length - 1 ? "Finish" : "Next"}
-                  <ChevronRight className="w-4 h-4 ml-1" />
-                </Button>
               </div>
-
               <Button
                 variant="ghost"
+                size="icon"
                 onClick={handleSkip}
-                className="w-full text-muted-foreground hover:text-foreground"
-                size="sm"
+                className="rounded-full hover:bg-destructive/10 h-8 w-8 flex-shrink-0"
               >
-                Skip Tutorial
+                <X className="w-4 h-4" />
               </Button>
             </div>
-          </Card>
-        </motion.div>
 
-        {/* Completion Celebration */}
+            <Progress value={progress} className="h-1.5" />
+            </div>
+
+          {/* Content */}
+          <div className="px-4 pb-4 space-y-3">
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {step.description}
+            </p>
+
+            {/* Validation Status */}
+            {step.validation && (
+              <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/50 border border-border/50">
+                {canProceed() ? (
+                  <>
+                    <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
+                    <span className="text-xs font-medium text-green-600 dark:text-green-400">
+                      Done! Click Next →
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <div className="w-4 h-4 rounded-full border-2 border-muted-foreground/30 animate-pulse flex-shrink-0" />
+                    <span className="text-xs text-muted-foreground">
+                      Complete the action to proceed
+                    </span>
+                  </>
+                )}
+              </div>
+            )}
+
+            {/* Controls */}
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                onClick={handlePrevious}
+                disabled={currentStep === 0}
+                size="sm"
+                className="flex-1"
+              >
+                <ChevronLeft className="w-3 h-3 mr-1" />
+                Back
+              </Button>
+              <Button
+                onClick={handleNext}
+                disabled={step.validation && !canProceed()}
+                size="sm"
+                className="flex-1"
+              >
+                {currentStep === tutorialSteps.length - 1 ? "Finish" : "Next"}
+                <ChevronRight className="w-3 h-3 ml-1" />
+              </Button>
+            </div>
+
+            <Button
+              variant="ghost"
+              onClick={handleSkip}
+              className="w-full text-muted-foreground hover:text-foreground text-xs"
+              size="sm"
+            >
+              Close Tutorial
+            </Button>
+          </div>
+        </Card>
+
+        {/* Completion Celebration - Smaller */}
         <AnimatePresence>
           {isCompleted && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              className="absolute inset-0 flex items-center justify-center pointer-events-none"
+              exit={{ opacity: 0, scale: 0.5 }}
+              className="absolute -top-20 left-1/2 -translate-x-1/2"
             >
-              <div className="text-center space-y-4">
+              <div className="text-center space-y-2">
                 <motion.div
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  transition={{ duration: 1, repeat: 2, ease: "linear" }}
                 >
-                  <Sparkles className="w-20 h-20 text-primary mx-auto" />
+                  <Sparkles className="w-12 h-12 text-primary mx-auto" />
                 </motion.div>
-                <h2 className="text-4xl font-bold text-primary">Tutorial Complete!</h2>
+                <p className="text-lg font-bold text-primary">Complete! 🎉</p>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </AnimatePresence>
   );
 };

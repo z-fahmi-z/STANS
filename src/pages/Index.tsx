@@ -40,17 +40,19 @@ const Index = () => {
       <div className="fixed inset-0 pointer-events-none opacity-40" 
            style={{ background: 'var(--gradient-mesh)' }} />
       
-      {/* Theme toggle & Tutorial button */}
-      <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
-        <button
-          onClick={() => setIsTutorialOpen(true)}
-          className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-lg flex items-center gap-2 font-medium"
-        >
-          <Sparkles className="w-4 h-4" />
-          Start Tutorial
-        </button>
+      {/* Theme toggle */}
+      <div className="fixed top-4 right-4 z-50">
         <ThemeToggle />
       </div>
+      
+      {/* Tutorial Button - Bottom Left */}
+      <button
+        onClick={() => setIsTutorialOpen(true)}
+        className="fixed bottom-6 left-6 z-40 px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-lg flex items-center gap-2 font-medium hover:scale-105"
+      >
+        <Sparkles className="w-4 h-4" />
+        Start Tutorial
+      </button>
       
       {/* Interactive Tutorial */}
       <InteractiveTutorial 
