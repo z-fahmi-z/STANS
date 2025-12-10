@@ -6,19 +6,17 @@ import ProjectInfo from "@/components/ProjectInfo";
 import RouteCalculator from "@/components/RouteCalculator";
 import GraphBuilder from "@/components/GraphBuilder";
 import AlgorithmComparison from "@/components/AlgorithmComparison";
-import ComplexityAnalysis from "@/components/ComplexityAnalysis";
 import Graph3D from "@/components/Graph3D";
 import VisualizationHistory from "@/components/VisualizationHistory";
 import GraphImport from "@/components/GraphImport";
 import EducationalMode from "@/components/EducationalMode";
-import PerformanceBenchmark from "@/components/PerformanceBenchmark";
-import AnimationRecorder from "@/components/AnimationRecorder";
 import CollaborativeGraph from "@/components/CollaborativeGraph";
-import GraphMetrics from "@/components/GraphMetrics";
 import GraphTemplates from "@/components/GraphTemplates";
+import DijkstraVisualization from "@/components/DijkstraVisualization";
+import PrimVisualization from "@/components/PrimVisualization";
 import { InteractiveTutorial } from "@/components/InteractiveTutorial";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { MapPin, Route, AlertTriangle, Hammer, BarChart3, Cpu, Box, Clock, Upload, GraduationCap, Zap, Video, Users, Network, Grid3x3, Sparkles } from "lucide-react";
+import { MapPin, Route, AlertTriangle, Hammer, BarChart3, Box, Clock, Upload, GraduationCap, Users, Grid3x3, Sparkles, Navigation, TreeDeciduous } from "lucide-react";
 import type { Edge } from "@/utils/kruskal";
 
 interface Node {
@@ -67,7 +65,7 @@ const Index = () => {
       <div className="relative">
         <Hero 
           onExploreClick={() => setActiveTab("builder")}
-          onViewAlgorithmClick={() => setActiveTab("visualization")}
+          onViewAlgorithmClick={() => setActiveTab("kruskal")}
         />
         
         <div className="container mx-auto px-4 py-12">
@@ -78,9 +76,17 @@ const Index = () => {
                   <MapPin className="w-4 h-4" />
                   Overview
                 </TabsTrigger>
-                <TabsTrigger value="visualization" className="flex items-center gap-2 whitespace-nowrap">
+                <TabsTrigger value="kruskal" className="flex items-center gap-2 whitespace-nowrap">
                   <Route className="w-4 h-4" />
                   Kruskal's
+                </TabsTrigger>
+                <TabsTrigger value="dijkstra" className="flex items-center gap-2 whitespace-nowrap">
+                  <Navigation className="w-4 h-4" />
+                  Dijkstra's
+                </TabsTrigger>
+                <TabsTrigger value="prim" className="flex items-center gap-2 whitespace-nowrap">
+                  <TreeDeciduous className="w-4 h-4" />
+                  Prim's
                 </TabsTrigger>
                 <TabsTrigger value="calculator" className="flex items-center gap-2 whitespace-nowrap">
                   <AlertTriangle className="w-4 h-4" />
@@ -90,10 +96,6 @@ const Index = () => {
                   <Hammer className="w-4 h-4" />
                   Builder
                 </TabsTrigger>
-                <TabsTrigger value="metrics" className="flex items-center gap-2 whitespace-nowrap">
-                  <Network className="w-4 h-4" />
-                  Metrics
-                </TabsTrigger>
                 <TabsTrigger value="templates" className="flex items-center gap-2 whitespace-nowrap">
                   <Grid3x3 className="w-4 h-4" />
                   Templates
@@ -101,10 +103,6 @@ const Index = () => {
                 <TabsTrigger value="comparison" className="flex items-center gap-2 whitespace-nowrap">
                   <BarChart3 className="w-4 h-4" />
                   Compare
-                </TabsTrigger>
-                <TabsTrigger value="complexity" className="flex items-center gap-2 whitespace-nowrap">
-                  <Cpu className="w-4 h-4" />
-                  Complexity
                 </TabsTrigger>
                 <TabsTrigger value="3d" className="flex items-center gap-2 whitespace-nowrap">
                   <Box className="w-4 h-4" />
@@ -122,14 +120,6 @@ const Index = () => {
                   <GraduationCap className="w-4 h-4" />
                   Learn
                 </TabsTrigger>
-                <TabsTrigger value="benchmark" className="flex items-center gap-2 whitespace-nowrap">
-                  <Zap className="w-4 h-4" />
-                  Benchmark
-                </TabsTrigger>
-                <TabsTrigger value="recorder" className="flex items-center gap-2 whitespace-nowrap">
-                  <Video className="w-4 h-4" />
-                  Record
-                </TabsTrigger>
                 <TabsTrigger value="collaborative" className="flex items-center gap-2 whitespace-nowrap">
                   <Users className="w-4 h-4" />
                   Collaborate
@@ -141,8 +131,16 @@ const Index = () => {
               <ProjectInfo />
             </TabsContent>
 
-            <TabsContent value="visualization">
+            <TabsContent value="kruskal">
               <GraphVisualization nodes={nodes} edges={edges} />
+            </TabsContent>
+
+            <TabsContent value="dijkstra">
+              <DijkstraVisualization nodes={nodes} edges={edges} />
+            </TabsContent>
+
+            <TabsContent value="prim">
+              <PrimVisualization nodes={nodes} edges={edges} />
             </TabsContent>
 
             <TabsContent value="calculator">
@@ -158,10 +156,6 @@ const Index = () => {
               />
             </TabsContent>
 
-            <TabsContent value="metrics">
-              <GraphMetrics nodes={nodes} edges={edges} />
-            </TabsContent>
-
             <TabsContent value="templates">
               <GraphTemplates 
                 onLoadTemplate={(templateNodes, templateEdges) => {
@@ -174,10 +168,6 @@ const Index = () => {
 
             <TabsContent value="comparison">
               <AlgorithmComparison nodes={nodes} edges={edges} />
-            </TabsContent>
-
-            <TabsContent value="complexity">
-              <ComplexityAnalysis />
             </TabsContent>
 
             <TabsContent value="3d">
@@ -224,14 +214,6 @@ const Index = () => {
 
             <TabsContent value="educational">
               <EducationalMode />
-            </TabsContent>
-
-            <TabsContent value="benchmark">
-              <PerformanceBenchmark />
-            </TabsContent>
-
-            <TabsContent value="recorder">
-              <AnimationRecorder />
             </TabsContent>
 
             <TabsContent value="collaborative">
