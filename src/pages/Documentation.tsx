@@ -338,7 +338,7 @@ export default function Documentation() {
           </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/weedu230/STANS" target="_blank" rel="noopener noreferrer">
               <Button variant="outline" size="sm" className="gap-2">
                 <GitBranch className="h-4 w-4" />
                 <span className="hidden sm:inline">View on GitHub</span>
