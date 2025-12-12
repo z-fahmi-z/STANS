@@ -53,6 +53,7 @@ const GraphBuilder = ({ nodes, edges, setNodes, setEdges }: GraphBuilderProps) =
   // Node dragging state
   const [draggingNodeId, setDraggingNodeId] = useState<string | null>(null);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [wasDragging, setWasDragging] = useState(false);
 
   // Version history state
   const [history, setHistory] = useState<GraphSnapshot[]>([]);
@@ -115,6 +116,11 @@ const GraphBuilder = ({ nodes, edges, setNodes, setEdges }: GraphBuilderProps) =
   const viewBoxY = panOffset.y;
 
   const handleSvgClick = (e: React.MouseEvent<SVGSVGElement>) => {
+    // Prevent node creation if we just finished dragging
+    if (wasDragging) {
+      setWasDragging(false);
+      return;
+    }
     if (mode !== "node" || isPanning) return;
 
     const svg = svgRef.current;
@@ -245,6 +251,7 @@ const GraphBuilder = ({ nodes, edges, setNodes, setEdges }: GraphBuilderProps) =
     if (draggingNodeId) {
       saveToHistory(`Moved node ${draggingNodeId}`, nodes, edges);
       setDraggingNodeId(null);
+      setWasDragging(true); // Flag to prevent node creation on mouseUp
     }
   };
 
