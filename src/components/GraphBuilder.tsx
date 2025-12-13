@@ -523,14 +523,27 @@ const GraphBuilder = ({ nodes, edges, setNodes, setEdges }: GraphBuilderProps) =
 
                 return (
                   <g key={index}>
+                    {/* Edge background for better visibility */}
+                    <line
+                      x1={from.x}
+                      y1={from.y}
+                      x2={to.x}
+                      y2={to.y}
+                      stroke="hsl(var(--foreground) / 0.2)"
+                      strokeWidth={edge.isBlocked ? 8 : 6}
+                      strokeLinecap="round"
+                    />
+                    {/* Main edge line */}
                     <line
                       x1={from.x}
                       y1={from.y}
                       x2={to.x}
                       y2={to.y}
                       stroke={edge.isBlocked ? "hsl(var(--destructive))" : getTrafficColor(edge.traffic)}
-                      strokeWidth={edge.isBlocked ? 3 : 2}
-                      strokeDasharray={edge.isBlocked ? "5,5" : "none"}
+                      strokeWidth={edge.isBlocked ? 5 : 4}
+                      strokeDasharray={edge.isBlocked ? "8,4" : "none"}
+                      strokeLinecap="round"
+                      className="transition-all"
                     />
                     <text
                       x={(from.x + to.x) / 2}
