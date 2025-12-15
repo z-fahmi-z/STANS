@@ -124,18 +124,18 @@ const Dashboard = () => {
       />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
-        {/* Left Sidebar - Controls (Hidden on mobile, toggle on tablet+) */}
+      <div className="flex-1 flex overflow-hidden relative">
+        {/* Left Sidebar - Controls */}
         <aside 
           className={`
-            ${leftSidebarOpen ? 'w-full lg:w-72 xl:w-80' : 'w-0'} 
-            transition-all duration-300 border-b lg:border-b-0 lg:border-r border-border 
+            hidden md:block
+            ${leftSidebarOpen ? 'w-72 xl:w-80' : 'w-0'} 
+            transition-all duration-300 border-r border-border 
             bg-card/50 backdrop-blur-sm overflow-hidden flex-shrink-0
-            ${leftSidebarOpen ? 'max-h-[50vh] lg:max-h-full' : 'max-h-0 lg:max-h-full'}
           `}
         >
           <ScrollArea className="h-full">
-            <div className="p-3 lg:p-4 space-y-3 lg:space-y-4">
+            <div className="p-4 space-y-4">
               {/* Traffic Simulator */}
               <TrafficSimulator
                 isSimulating={isSimulating}
@@ -165,60 +165,60 @@ const Dashboard = () => {
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium">Quick Actions</CardTitle>
                 </CardHeader>
-                <CardContent className="grid grid-cols-2 lg:grid-cols-1 gap-2">
+                <CardContent className="space-y-2">
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="w-full justify-start text-xs lg:text-sm"
+                    className="w-full justify-start"
                     onClick={() => setActiveTab("builder")}
                   >
-                    <Hammer className="w-4 h-4 mr-2 flex-shrink-0" />
-                    <span className="truncate">Build Network</span>
+                    <Hammer className="w-4 h-4 mr-2" />
+                    Build Network
                   </Button>
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="w-full justify-start text-xs lg:text-sm"
+                    className="w-full justify-start"
                     onClick={() => setActiveTab("templates")}
                   >
-                    <Grid3x3 className="w-4 h-4 mr-2 flex-shrink-0" />
-                    <span className="truncate">Load Template</span>
+                    <Grid3x3 className="w-4 h-4 mr-2" />
+                    Load Template
                   </Button>
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="w-full justify-start text-xs lg:text-sm"
+                    className="w-full justify-start"
                     onClick={() => setActiveTab("import")}
                   >
-                    <Upload className="w-4 h-4 mr-2 flex-shrink-0" />
-                    <span className="truncate">Import/Export</span>
+                    <Upload className="w-4 h-4 mr-2" />
+                    Import/Export
                   </Button>
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="w-full justify-start text-xs lg:text-sm"
+                    className="w-full justify-start"
                     onClick={() => setActiveTab("learn")}
                   >
-                    <GraduationCap className="w-4 h-4 mr-2 flex-shrink-0" />
-                    <span className="truncate">Learn Mode</span>
+                    <GraduationCap className="w-4 h-4 mr-2" />
+                    Learn Mode
                   </Button>
                   <Button 
                     variant="default" 
                     size="sm" 
-                    className="w-full justify-start text-xs lg:text-sm"
+                    className="w-full justify-start"
                     onClick={() => setIsTutorialOpen(true)}
                   >
-                    <Sparkles className="w-4 h-4 mr-2 flex-shrink-0" />
-                    <span className="truncate">Start Tutorial</span>
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Start Tutorial
                   </Button>
                   <Link to="/concepts" className="block">
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      className="w-full justify-start text-xs lg:text-sm"
+                      className="w-full justify-start"
                     >
-                      <BookOpen className="w-4 h-4 mr-2 flex-shrink-0" />
-                      <span className="truncate">DSA Guide</span>
+                      <BookOpen className="w-4 h-4 mr-2" />
+                      DSA Guide
                     </Button>
                   </Link>
                 </CardContent>
@@ -227,33 +227,14 @@ const Dashboard = () => {
           </ScrollArea>
         </aside>
 
-        {/* Toggle Left Sidebar */}
+        {/* Toggle Left Sidebar (Desktop only) */}
         <button
           onClick={() => setLeftSidebarOpen(!leftSidebarOpen)}
-          className="hidden lg:block absolute top-1/2 -translate-y-1/2 z-20 bg-card border border-border rounded-r-lg p-1 hover:bg-muted transition-colors"
+          className="hidden md:block absolute top-1/2 -translate-y-1/2 z-20 bg-card border border-border rounded-r-lg p-1 hover:bg-muted transition-colors"
           style={{ left: leftSidebarOpen ? '288px' : '0' }}
         >
           {leftSidebarOpen ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
         </button>
-
-        {/* Mobile Sidebar Toggles */}
-        <div className="lg:hidden flex border-b border-border bg-card/30 backdrop-blur-sm">
-          <button
-            onClick={() => setLeftSidebarOpen(!leftSidebarOpen)}
-            className="flex-1 py-2 px-4 text-xs font-medium flex items-center justify-center gap-2 hover:bg-muted transition-colors"
-          >
-            {leftSidebarOpen ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-            Controls
-          </button>
-          <div className="w-px bg-border" />
-          <button
-            onClick={() => setRightSidebarOpen(!rightSidebarOpen)}
-            className="flex-1 py-2 px-4 text-xs font-medium flex items-center justify-center gap-2 hover:bg-muted transition-colors"
-          >
-            Metrics
-            {rightSidebarOpen ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-          </button>
-        </div>
 
         {/* Center - Main Visualization */}
         <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
@@ -378,7 +359,7 @@ const Dashboard = () => {
         {/* Toggle Right Sidebar (Desktop only) */}
         <button
           onClick={() => setRightSidebarOpen(!rightSidebarOpen)}
-          className="hidden lg:block absolute top-1/2 -translate-y-1/2 z-20 bg-card border border-border rounded-l-lg p-1 hover:bg-muted transition-colors"
+          className="hidden md:block absolute top-1/2 -translate-y-1/2 z-20 bg-card border border-border rounded-l-lg p-1 hover:bg-muted transition-colors"
           style={{ right: rightSidebarOpen ? '288px' : '0' }}
         >
           {rightSidebarOpen ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
@@ -387,14 +368,14 @@ const Dashboard = () => {
         {/* Right Sidebar - Metrics & Insights */}
         <aside 
           className={`
-            ${rightSidebarOpen ? 'w-full lg:w-72 xl:w-80' : 'w-0'} 
-            transition-all duration-300 border-t lg:border-t-0 lg:border-l border-border 
+            hidden md:block
+            ${rightSidebarOpen ? 'w-72 xl:w-80' : 'w-0'} 
+            transition-all duration-300 border-l border-border 
             bg-card/50 backdrop-blur-sm overflow-hidden flex-shrink-0
-            ${rightSidebarOpen ? 'max-h-[50vh] lg:max-h-full' : 'max-h-0 lg:max-h-full'}
           `}
         >
           <ScrollArea className="h-full">
-            <div className="p-3 lg:p-4">
+            <div className="p-4">
               <SystemDashboard
                 nodes={nodes}
                 edges={edges}
