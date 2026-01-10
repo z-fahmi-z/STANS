@@ -27,14 +27,6 @@ This system develops a map guidance platform utilizing **Kruskal's algorithm** t
 - Framer Motion (Animations)
 - Recharts (Data Visualization)
 
-## Team Members
-
-| Name | Role | ID |
-|------|------|-----|
-| Muhammad Waleed Ahmed | Team Leader | 02-131242-119 |
-| Muhammad Sameer | Member | 02-131242-043 |
-| Muhammad Umer | Member | 02-131242-109 |
-| Dahir Abdinasir | Member | 02-131242-111 |
 
 ## Course Information
 
