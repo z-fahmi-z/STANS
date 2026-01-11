@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import ArchitectureDiagram from "@/components/ArchitectureDiagram";
 
 const dsaConcepts = [
   {
@@ -385,46 +386,19 @@ export default function Documentation() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="bg-muted/50 rounded-lg p-4 font-mono text-sm overflow-x-auto">
-              <pre className="whitespace-pre text-xs sm:text-sm">
-{`┌─────────────────────────────────────────────────────────────────────┐
-│                        STANS Architecture                            │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   ┌──────────────┐    ┌──────────────┐    ┌──────────────────────┐  │
-│   │ GraphBuilder │───▶│ Graph Data   │───▶│ Algorithm Engine     │  │
-│   │    (UI)      │    │  Structure   │    │ ┌──────────────────┐ │  │
-│   │              │    │              │    │ │ Kruskal's + DSU  │ │  │
-│   │ • Add Nodes  │    │ • Nodes[]    │    │ ├──────────────────┤ │  │
-│   │ • Add Edges  │    │ • Edges[]    │    │ │ Dijkstra's       │ │  │
-│   │ • Set Weight │    │ • Traffic    │    │ ├──────────────────┤ │  │
-│   └──────────────┘    └──────────────┘    │ │ Prim's           │ │  │
-│                              │            │ └──────────────────┘ │  │
-│                              ▼            └──────────┬───────────┘  │
-│   ┌──────────────┐    ┌──────────────┐              │               │
-│   │  Templates   │───▶│ Shared State │◀─────────────┘               │
-│   │              │    │   (Index)    │                              │
-│   │ • Karachi    │    │              │    ┌──────────────────────┐  │
-│   │ • Custom     │    │ nodes/edges  │───▶│ Visualization        │  │
-│   └──────────────┘    └──────────────┘    │ • SVG Rendering      │  │
-│                                           │ • Step Animation     │  │
-│   Data Flow: User Input → Graph → Algo → Visualization            │  │
-│                                           └──────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────┘`}
-              </pre>
-            </div>
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
-              <div className="p-3 rounded-lg bg-primary/10">
+            <ArchitectureDiagram />
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+              <div className="p-4 rounded-lg bg-primary/10 border border-primary/20">
                 <strong className="text-primary">Input Layer</strong>
-                <p className="text-muted-foreground mt-1">GraphBuilder UI and Templates provide graph data</p>
+                <p className="text-muted-foreground mt-1">GraphBuilder UI and Templates provide graph data input</p>
               </div>
-              <div className="p-3 rounded-lg bg-primary/10">
-                <strong className="text-primary">Processing Layer</strong>
-                <p className="text-muted-foreground mt-1">DSA algorithms process graph with traffic weights</p>
+              <div className="p-4 rounded-lg bg-secondary/10 border border-secondary/20">
+                <strong className="text-secondary">Processing Layer</strong>
+                <p className="text-muted-foreground mt-1">DSA algorithms process graph with traffic-aware weights</p>
               </div>
-              <div className="p-3 rounded-lg bg-primary/10">
-                <strong className="text-primary">Output Layer</strong>
-                <p className="text-muted-foreground mt-1">Step-by-step visualization with animations</p>
+              <div className="p-4 rounded-lg bg-accent/10 border border-accent/20">
+                <strong className="text-accent">Output Layer</strong>
+                <p className="text-muted-foreground mt-1">Step-by-step visualization with real-time animations</p>
               </div>
             </div>
           </CardContent>
