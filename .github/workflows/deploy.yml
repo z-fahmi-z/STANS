@@ -1,0 +1,35 @@
+name: Nginx + React Deployment
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  # Continiuous Integration for React
+  ci-react-nginx:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22.3'
+
+      - name: Installnpm dependencies
+        run: |
+          npm install --legacy-peer-deps
+
+      - name: Build React app
+        run: |
+          npm run build
+      
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 2
+          if-no-files-found: error
