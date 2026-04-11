@@ -13,11 +13,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '22.12.0'
+          node-version: '22.3.0'
 
       - name: Install npm dependencies
         run: |
-          npm install --legacy-peer-deps
+          npm ci --legacy-peer-deps
 
       - name: Build React app
         run: |
