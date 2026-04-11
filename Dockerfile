@@ -1,5 +1,5 @@
 # Build the React app
-FROM node:22.3-alpine AS builder
+FROM node:22.12-alpine AS builder
 
 WORKDIR /usr/src/stans-app
 
