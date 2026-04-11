@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Triggering build...'
+                echo 'Triggering build attempt 3...'
             }
         }
     }
