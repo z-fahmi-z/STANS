@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Sending webhook trigger from Github...'
+                echo 'Triggering build...'
             }
         }
     }
