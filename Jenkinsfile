@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     stages {
-        stage('Trigger') {
+        stage('Build') {
             steps {
                 echo 'Sending webhook trigger from Github...'
             }
