@@ -1,3 +1,4 @@
+# Use GitHub Actions for simple workflow
 name: Nginx + React Deployment
 
 on:
